@@ -1,0 +1,25 @@
+services:
+  butlarr:
+    extends:
+      file: ${SERVICE_ROOT}/base/base.yml
+      service: media
+    env_file: .env
+    container_name: butlarr
+    hostname: butlarr
+    image: pknw1/butlarr #trimforce/butlarr:latest
+    volumes:
+      - ${CONFIG_ROOT}/butlarr/data:/app/data
+      - ${CONFIG_ROOT}/butlarr/config/config.yaml:/app/config.yaml
+      - ${CONFIG_ROOT}/butlarr/config/custom_commands.ini:/app/custom_commands.ini
+      - /dev/fuse:/dev/fuse
+    environment:
+      - BUTLARR_CONFIG_FILE=./config.yaml
+      - BUTLARR_INTERACTIVE_SETUP=false
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true
+    name: proxy
+
+
